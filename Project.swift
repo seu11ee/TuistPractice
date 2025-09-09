@@ -9,11 +9,18 @@ let project = Project(
         ]
     ),
     targets: [
+    	.target(
+	        name: "Core",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "dev.tuist.NewsHub.Core",
+            sources: ["Core/Sources/**"]
+         ),
         .target(
             name: "NewsHub",
             destinations: .iOS,
             product: .app,
-            bundleId: "dev.tuist.NewsHub",
+            bundleId: "dev.tuist.NewsHub.App",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -26,7 +33,7 @@ let project = Project(
             ),
             sources: ["NewsHub/Sources/**"],
             resources: ["NewsHub/Resources/**"],
-            dependencies: []
+            dependencies: [.target(name: "Core")]
         ),
         .target(
             name: "NewsHubTests",
