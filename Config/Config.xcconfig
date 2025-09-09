@@ -1,0 +1,12 @@
+//
+//  Config.xcconfig
+//  NewsHub
+//
+//  Created by 이예슬 on 9/7/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+NEWS_API_KEY = cd7ee6d7062041cbbfc0251445dbd577
+NEWS_API_BASE_URL = https://newsapi.org/v2

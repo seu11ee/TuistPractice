@@ -2,6 +2,12 @@ import ProjectDescription
 
 let project = Project(
     name: "NewsHub",
+    settings: .settings(
+        configurations: [
+            .debug(name: .debug, xcconfig: .relativeToRoot("Config/Config.xcconfig")),
+            .release(name: .release, xcconfig: .relativeToRoot("Config/Config.xcconfig"))
+        ]
+    ),
     targets: [
         .target(
             name: "NewsHub",
@@ -14,12 +20,12 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+		    "NEWS_API_KEY": "$(NEWS_API_KEY)",
+		    "NEWS_API_BASE_URL": "$(NEWS_API_BASE_URL)"
                 ]
             ),
-            buildableFolders: [
-                "NewsHub/Sources",
-                "NewsHub/Resources",
-            ],
+            sources: ["NewsHub/Sources/**"],
+            resources: ["NewsHub/Resources/**"],
             dependencies: []
         ),
         .target(
@@ -28,9 +34,7 @@ let project = Project(
             product: .unitTests,
             bundleId: "dev.tuist.NewsHubTests",
             infoPlist: .default,
-            buildableFolders: [
-                "NewsHub/Tests"
-            ],
+            sources: ["NewsHub/Tests/**"],
             dependencies: [.target(name: "NewsHub")]
         ),
     ]
