@@ -36,6 +36,14 @@ let project = Project(
             dependencies: [.target(name: "Core")]
         ),
         .target(
+            name: "CoreTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "dev.tuist.NewsHub.CoreTests",
+            sources: ["Core/Tests/**"],
+            dependencies: [.target(name: "Core")]
+        ),            
+        .target(
             name: "NewsHubTests",
             destinations: .iOS,
             product: .unitTests,
