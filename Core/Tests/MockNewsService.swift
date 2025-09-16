@@ -10,7 +10,7 @@
 class MockNewsService: NewsServiceProtocol {
     var mockArticles: [Article] = []
     var shouldThrowError: Bool = false
-    func fetchTopHeadlines() async throws -> [Article] {
+    func fetchTopHeadlines(country: String = "us") async throws -> [Article] {
         if shouldThrowError {
             throw NewsServiceError.networkError
         }

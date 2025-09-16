@@ -5,8 +5,8 @@
 //  Created by 이예슬 on 9/9/25.
 //
 
-struct NewsResponse: Codable {
-    let status: String
-    let totalResults: Int
-    let articles: [Article]
+public struct NewsResponse: Codable {
+    public let status: String
+    public let totalResults: Int
+    public let articles: [Article]
 }
