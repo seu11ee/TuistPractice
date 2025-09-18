@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import TestHelpers
 @testable import Core
 
 final class NewsServiceTests: XCTestCase {

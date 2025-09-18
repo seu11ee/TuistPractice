@@ -5,6 +5,6 @@
 //  Created by 이예슬 on 9/10/25.
 //
 
-protocol NewsServiceProtocol {
-    func fetchTopHeadlines(country: String) async throws -> [Article]
+public protocol NewsServiceProtocol {
+    public func fetchTopHeadlines(country: String) async throws -> [Article]
 }

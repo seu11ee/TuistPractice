@@ -17,6 +17,14 @@ let project = Project(
             sources: ["Core/Sources/**"]
          ),
         .target(
+            name: "TestHelpers",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "dev.tuist.NewsHub.TestHelpers",
+            sources: ["TestHelpers/Sources/**"],
+            dependencies: [.target(name: "Core")]
+        ),
+        .target(
             name: "NewsHub",
             destinations: .iOS,
             product: .app,
@@ -41,7 +49,10 @@ let project = Project(
             product: .unitTests,
             bundleId: "dev.tuist.NewsHub.CoreTests",
             sources: ["Core/Tests/**"],
-            dependencies: [.target(name: "Core")]
+            dependencies: [
+                .target(name: "Core"),
+                .target(name: "TestHelpers")
+            ]
         ),            
         .target(
             name: "NewsHubTests",
@@ -50,7 +61,10 @@ let project = Project(
             bundleId: "dev.tuist.NewsHubTests",
             infoPlist: .default,
             sources: ["NewsHub/Tests/**"],
-            dependencies: [.target(name: "NewsHub")]
+            dependencies: [
+                .target(name: "NewsHub"),
+                .target(name: "TestHelpers")
+            ]
         ),
     ]
 )

@@ -7,10 +7,10 @@
 
 @testable import Core
 
-class MockNewsService: NewsServiceProtocol {
+public class MockNewsService: NewsServiceProtocol {
     var mockArticles: [Article] = []
     var shouldThrowError: Bool = false
-    func fetchTopHeadlines(country: String = "us") async throws -> [Article] {
+    public func fetchTopHeadlines(country: String = "us") async throws -> [Article] {
         if shouldThrowError {
             throw NewsServiceError.networkError
         }
