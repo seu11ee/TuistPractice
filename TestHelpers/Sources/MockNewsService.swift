@@ -14,6 +14,7 @@ public class MockNewsService: NewsServiceProtocol {
         if shouldThrowError {
             throw NewsServiceError.networkError
         }
+        try await Task.sleep(nanoseconds: 150_000_000)
         return mockArticles
     }
 }

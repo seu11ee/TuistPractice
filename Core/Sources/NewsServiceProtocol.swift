@@ -6,5 +6,5 @@
 //
 
 public protocol NewsServiceProtocol {
-    public func fetchTopHeadlines(country: String) async throws -> [Article]
+    func fetchTopHeadlines(country: String) async throws -> [Article]
 }
