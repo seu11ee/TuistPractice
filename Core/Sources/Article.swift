@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Article: Codable, Identifiable {
-    public var id = UUID()
+    public var id: UUID = UUID()
     public let source: Source
     public let author: String?
     public let title: String
@@ -17,9 +17,35 @@ public struct Article: Codable, Identifiable {
     public let urlToImage: String?
     public let publishedAt: String
     public let content: String?
+
+    enum CodingKeys: String, CodingKey {
+        case source, author, title, description, url, urlToImage, publishedAt, content
+    }
+
+    public init(source: Source, author: String?, title: String, description: String?, url: String, urlToImage: String?, publishedAt: String, content: String?) {
+        self.source = source
+        self.author = author
+        self.title = title
+        self.description = description
+        self.url = url
+        self.urlToImage = urlToImage
+        self.publishedAt = publishedAt
+        self.content = content
+    }
 }
 
 public struct Source: Codable {
     public let id: String?
     public let name: String
+    
+    public init (id: String?, name: String) {
+        self.id = id
+        self.name = name
+    }
+}
+
+extension Article {
+    public var publishedDate: Date? {
+        ISO8601DateFormatter().date(from: publishedAt)
+    }
 }

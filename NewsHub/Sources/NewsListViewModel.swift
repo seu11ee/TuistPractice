@@ -13,6 +13,17 @@ class NewsListViewModel: ObservableObject {
     @Published var articles: [Article] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    var filteredArticles: [Article] {
+          if searchText.isEmpty {
+              return articles
+          } else {
+              return articles.filter { article in
+                  article.title.localizedCaseInsensitiveContains(searchText) ||
+                  article.description?.localizedCaseInsensitiveContains(searchText) == true
+              }
+          }
+      }
+    @Published var searchText: String = ""
     
     private let newsService: NewsServiceProtocol
     
@@ -21,6 +32,7 @@ class NewsListViewModel: ObservableObject {
     }
     
     func loadNews() async {
+        guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
         do {
@@ -28,7 +40,7 @@ class NewsListViewModel: ObservableObject {
         }
         catch {
             if let newsError = error as? NewsServiceError {
-                errorMessage = errorMessage(for: newsError)
+                errorMessage = formatErrorMessage(for: newsError)
             } else {
                 errorMessage = "An unexpected error occurred"
             }
@@ -37,7 +49,7 @@ class NewsListViewModel: ObservableObject {
         isLoading = false
     }
     
-    private func errorMessage(for error: NewsServiceError) -> String {
+    private func formatErrorMessage(for error: NewsServiceError) -> String {
               switch error {
               case .networkError:
                   return "Network connection failed. Please check your internet."

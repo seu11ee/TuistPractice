@@ -112,3 +112,4 @@ playground.xcworkspace
 # Claude Code
 .claude/
 CLAUDE.md
+Config/Config.xcconfig

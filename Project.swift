@@ -36,7 +36,10 @@ let project = Project(
                         "UIImageName": "",
                     ],
 		    "NEWS_API_KEY": "$(NEWS_API_KEY)",
-		    "NEWS_API_BASE_URL": "$(NEWS_API_BASE_URL)"
+		    "NEWS_API_BASE_URL": "$(NEWS_API_BASE_URL)",
+		    "NSAppTransportSecurity": [
+		        "NSAllowsArbitraryLoads": true
+		    ]
                 ]
             ),
             sources: ["NewsHub/Sources/**"],
