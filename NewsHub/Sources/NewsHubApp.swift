@@ -13,3 +13,7 @@ struct NewsHubApp: App {
         return NewsService(apiKey: Bundle.main.newsAPIKey, baseURL: Bundle.main.newsAPIBaseURL)
     }
 }
+
+#Preview {
+    NewsListView(newsService: NewsService(apiKey: Bundle.main.newsAPIKey, baseURL: Bundle.main.newsAPIBaseURL))
+}

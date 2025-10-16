@@ -15,7 +15,7 @@ struct NewsListView: View {
         self._viewModel = StateObject(wrappedValue: NewsListViewModel(newsService: newsService))
     }
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 if viewModel.isLoading && viewModel.filteredArticles.isEmpty {
                     ProgressView("Loading...")
@@ -25,16 +25,21 @@ struct NewsListView: View {
                 } else {
                     List(viewModel.filteredArticles) {
                         article in
-                        makeArticleRowView(article)
+                        NavigationLink(value: article) {
+                            
+                            makeArticleRowView(article)
+                        }
                     }
                     .searchable(text: $viewModel.searchText, prompt: "Search news")
                     .refreshable {
                         await viewModel.loadNews()
                     }
-                    
                 }
             }
             .navigationTitle("NewsHub")
+            .navigationDestination(for: Article.self) {
+                article in ArticleDetailView(article: article)
+            }
         }
         .onAppear {
             Task { await viewModel.loadNews() }
