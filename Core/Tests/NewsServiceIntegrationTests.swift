@@ -9,13 +9,12 @@ import XCTest
 @testable import Core
 
 final class NewsServiceIntegrationTests: XCTestCase {
-
     func testRealAPICall_WithValidCredentials_ReturnsArticles() async throws {
         // Given: Real NewsService with actual API credentials
-        let apiKey = Bundle.main.newsAPIKey
-        let baseURL = Bundle.main.newsAPIBaseURL
-        let newsService = NewsService(apiKey: apiKey, baseURL: baseURL)
-
+        let newsService = NewsService(
+                  apiKey: "cd7ee6d7062041cbbfc0251445dbd577",
+                  baseURL: "https://newsapi.org/v2/top-headlines"
+              )
         // When: Fetch top headlines
         let articles = try await newsService.fetchTopHeadlines(country: "us")
 
@@ -35,10 +34,9 @@ final class NewsServiceIntegrationTests: XCTestCase {
     func testRealAPICall_InvalidAPIKey_ThrowsError() async throws {
         // Given: NewsService with invalid API key
         let newsService = NewsService(
-            apiKey: "invalid_key_123",
-            baseURL: Bundle.main.newsAPIBaseURL
-        )
-
+                  apiKey: "invalidkey123",
+                  baseURL: "https://newsapi.org/v2/top-headlines"
+              )
         // When & Then: Should throw invalidAPIKey error
         do {
             _ = try await newsService.fetchTopHeadlines()
@@ -52,7 +50,7 @@ final class NewsServiceIntegrationTests: XCTestCase {
     func testURLConstruction_VerifyCorrectFormat() throws {
         // Given: NewsService
         let apiKey = "test_key"
-        let baseURL = Bundle.main.newsAPIBaseURL
+        let baseURL = "https://newsapi.org/v2/top-headlines"
 
         // When: Construct URL components
         var components = URLComponents(string: baseURL)!
@@ -72,6 +70,6 @@ final class NewsServiceIntegrationTests: XCTestCase {
 
         XCTAssertTrue(urlString.contains("top-headlines"), "URL should contain endpoint")
         XCTAssertTrue(urlString.contains("country=us"), "URL should contain country parameter")
-        XCTAssertTrue(urlString.contains("apiKey=test_key"), "URL should contain API key")
+        XCTAssertTrue(urlString.contains("apiKey=\(apiKey)"), "URL should contain API key")
     }
 }
