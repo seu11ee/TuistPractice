@@ -24,6 +24,7 @@ struct ArticleDetailView: View {
                 HStack {
                     Text(article.author ?? "")
                         .font(.caption)
+                    Spacer()
                     if let publishedDate = article.publishedDate {
                         Text(publishedDate, style: .date)
                             .font(.caption)
@@ -33,39 +34,69 @@ struct ArticleDetailView: View {
                     }
                 }
                 
-                // 이미지
-                    AsyncImage(url: URL(string: article.urlToImage ?? "")) { phase in
+                if let urlString = article.urlToImage, !urlString.isEmpty, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
                         switch phase {
                         case .empty:
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.2))
+                            ZStack {
+                                imagePlaceholder(showIcon: false)
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                            }
+                            
                         case .success(let image):
                             image
                                 .resizable()
-
-                        case .failure:
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.3))
-                                .overlay(
-                                    Image(systemName: "photo")
-                                        .foregroundColor(.gray)
-                                )
+                            
+                        case .failure(let error):
+                            ZStack {
+                                imagePlaceholder()
+                                Text(error.localizedDescription)
+                            }
+                            
                         @unknown default:
-                            EmptyView()
+                            imagePlaceholder()
                         }
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 200)
                     .aspectRatio(contentMode: .fill)
                     .clipped()
+                } else {
+                    imagePlaceholder()
+                    
+                }
                 
                 
-                Text(article.content ?? "No content.")
+                
+                if let content = article.content {
+                    Text(content)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                    
+                        
+                } else {
+                    Text("No content.")
+                }
             }
             .padding()
         }
     }
     
+    @ViewBuilder
+    private func imagePlaceholder(showIcon: Bool = true) -> some View {
+        Rectangle()
+            .fill(Color.gray.opacity(0.3))
+            .overlay {
+                if showIcon {
+                    Image(systemName: "photo")
+                        .foregroundColor(.gray)
+                }
+            }
+            .frame(height: 200)
+    }
 }
 
 #Preview {
