@@ -23,6 +23,9 @@ public class NewsService: NewsServiceProtocol {
     }
     
     public func fetchTopHeadlines(country: String = "us") async throws -> [Article] {
+        print("fetcing API ...")
+        print("baseURL:", baseURL)
+        print("apiKey:", apiKey)
         guard !baseURL.isEmpty else {
             throw NewsServiceError.invalidURL
         }
